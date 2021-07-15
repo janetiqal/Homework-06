@@ -12,7 +12,7 @@ function getAPI(){
         var wind = data.current.wind_speed;
         var humidity = data.current.humidity;
         var uvIndex =data.current.uvi;
-        console.log(currentTemp, wind , humidity, uvIndex)
+        console.log(currentTemp, wind, humidity, uvIndex)
     })
 }
 getAPI();
