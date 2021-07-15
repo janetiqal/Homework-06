@@ -12,16 +12,20 @@
 </head>
 
 <body>
-    <h1>Weather Dashboard</h1>
     <main>
-        <div class="card" style="width: 18rem;">
-            <label > Select a City</label>
-            <input type="text" id="userCityChoice" placeholder="City">
-            <button class="btn btn-primary" type="submit">Search</button>
-            <!--use local storage to save and create a dynamic <li> using javascript for prev. searched cities.-->
-        </div>
+        <h1 class="jumbotron">Weather Dashboard</h1>
+        <h4>Select A City</h4>
+            <div class="card" style="width: 18em;">
+                <input type="text" id="userCityChoice" placeholder="City">
+                <button class="btn btn-primary" type="submit">Search</button>
+                <!--use local storage to save and create a dynamic <li> using javascript for prev. searched cities.-->
+                    <!-- <ul>
+                        <li></li>
+                    </ul> -->       
+            </div>
         <div id="currentSearch"></div>
-        <div id="FiveDayForecast"></div>
+        <div id="fiveDayForecast"></div>
+       
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
