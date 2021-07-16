@@ -1,8 +1,7 @@
 const ApiKey= "6845bd9653c312c4a4d4b0a988d5d986";
-// 41.8781° N, -87.6298° W
+const searchButton= document.querySelector("button");
 const containerElement= document.getElementById("currentSearch");
 containerElement.classList.add("card");
-const searchButton= document.querySelector("button");
 const fiveDayElement= document.getElementById("fiveDayForecast");
 fiveDayElement.classList.add("card");
 
@@ -13,7 +12,7 @@ function getAPI(){
         return response.json();
     })
     .then(function(data){
-        // console.log(data)
+        console.log(data)
         //Extracted the 4 variables I wanted to display for my current weather forecast
         var currentTemp = data.current.temp;
         var wind = data.current.wind_speed;
@@ -32,11 +31,20 @@ function getAPI(){
           //Humidity being added to page
         var humidityElement= document.createElement('h6');
         humidityElement.textContent=`Humidty: ${humidity}%`;
-
         //appending all 4 variable to the div element w class card. 
         containerElement.append(tempElement, windElement, UVElement, humidityElement);
+        
+        // Populating the 5 day forecast
+
+        //targeted the 5 day forecast data,
+        for (let i=0; i <data.daily.length; i++){
+        console.log(data.daily[i].humidity)
+        console.log(data.daily[i].wind_speed)
+        console.log(data.daily[i].temp[0,"day"])
+        };
     })
-}
+};
+
 searchButton.addEventListener("click", function(){
     console.log("clicked")
     var citySearched= document.getElementById("userCityChoice").value;
@@ -45,6 +53,6 @@ searchButton.addEventListener("click", function(){
     cityElement.textContent=citySearched;
     containerElement.append(cityElement);
     getAPI();
-    fiveDayForecast();
-});
+} 
+);
 
