@@ -5,7 +5,6 @@ const listOfCitySearched= document.getElementById("listCitySearched");
 containerElement.classList.add("card");
 const fiveDayElement= document.getElementById("fiveDayForecast");
 fiveDayElement.classList.add("container");
-var today= moment().format("L");
 
 function getAPI(){
     fetch("https://api.openweathermap.org/data/2.5/onecall?lat=41.8781&lon=-87.6298&appid=" + ApiKey + "&units=imperial")
@@ -19,6 +18,8 @@ function getAPI(){
         var wind = data.current.wind_speed;
         var humidity = data.current.humidity;
         var uvIndex =data.current.uvi;
+        var currentDate= data.current.dt;
+        
         //weather icon targetted but not getting the image.
         var weatherIcon =data.current.weather[0].icon;
         console.log(currentTemp, wind, humidity, uvIndex, weatherIcon);
@@ -27,8 +28,7 @@ function getAPI(){
         var cityElement= document.createElement('h2');
         cityElement.classList.add("card-header"); //added card header to differentiate data from city
         //adding todays date to the city searched input
-        cityElement.textContent=citySearched + today;
-
+        cityElement.textContent=citySearched + moment.unix(currentDate).format("MM/DD/YYYY");
         //Temp being added to page
         var tempElement=document.createElement('h6');
         tempElement.textContent=`Temperature: ${currentTemp} °F`;
@@ -46,9 +46,8 @@ function getAPI(){
         
         // Populating the 5 day forecast
 
-        //targeted the 5 day forecast data,
-    
-        for (let i=0; i <data.daily.length; i++){
+        //Used the same API to populate the 5 day forecast, this API gives us 7 so I modified the for loop to start at tomorrows date (array position 1) and end at 5 days from today. 
+        for (let i=1; i <6; i++){
       console.log("this"+ data.daily[i])
         //created the cards by creating a div w card class
         var individualCardsForecast=document.createElement('div');
@@ -58,9 +57,10 @@ function getAPI(){
         cardbodies.classList.add("card-body")
         individualCardsForecast.appendChild(cardbodies)
         
-        var cardTitle= document.createElement('h4');
+        let dateTime= data.daily[i].dt;
+        var cardTitle= document.createElement('h5');
         cardTitle.classList.add("card-title");
-        cardTitle.textContent=today; //set text content to range of 5 days
+        cardTitle.textContent=moment.unix(dateTime).format("MM/DD/YYYY"); 
         cardbodies.appendChild(cardTitle);
         
         let fiveDayForecastHumidity= data.daily[i].humidity;
