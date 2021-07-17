@@ -13,7 +13,7 @@ function getAPI(){
     })
     .then(function(data){
         console.log(data)
-        //Extracted the 5 variables I wanted to display for my current weather forecast
+        //Extracted the 6 variables I wanted to display for my current weather forecast
         var currentTemp = data.current.temp;
         var wind = data.current.wind_speed;
         var humidity = data.current.humidity;
@@ -109,6 +109,11 @@ function displayCity (){
   localStorage.setItem("searchedCity",citySearched)
 };
 
+// To DO LIST:
+  //figure out how to add weather icons to the page
+  // dynamically create the latitude and longitude, call on the second API(below), it allows the city searched to be entered in the query.
+  //fix the current temp. CSS on page, its not absolute.
+  //getitem from local storage
 
 
 // var citySearched= document.getElementById("citySearched").value;
