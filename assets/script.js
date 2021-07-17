@@ -1,6 +1,7 @@
 const ApiKey= "6845bd9653c312c4a4d4b0a988d5d986";
 const searchButton= document.querySelector("button");
 const containerElement= document.getElementById("currentSearch");
+const listOfCitySearched= document.getElementById("listCitySearched");
 containerElement.classList.add("card");
 const fiveDayElement= document.getElementById("fiveDayForecast");
 fiveDayElement.classList.add("container");
@@ -9,11 +10,10 @@ var today= moment().format("L");
 function getAPI(){
     fetch("https://api.openweathermap.org/data/2.5/onecall?lat=41.8781&lon=-87.6298&appid=" + ApiKey + "&units=imperial")
     .then(function(response){
-        // console.log(response);
         return response.json();
     })
     .then(function(data){
-        // console.log(data)
+        console.log(data)
         //Extracted the 5 variables I wanted to display for my current weather forecast
         var currentTemp = data.current.temp;
         var wind = data.current.wind_speed;
@@ -21,7 +21,7 @@ function getAPI(){
         var uvIndex =data.current.uvi;
         //weather icon targetted but not getting the image.
         var weatherIcon =data.current.weather[0].icon;
-        console.log(currentTemp, wind, humidity, uvIndex), weatherIcon;
+        console.log(currentTemp, wind, humidity, uvIndex, weatherIcon);
         //taking the value of user input in search bar and creating an H2 to append it to
         var citySearched= document.getElementById("userCityChoice").value;
         var cityElement= document.createElement('h2');
@@ -47,6 +47,7 @@ function getAPI(){
         // Populating the 5 day forecast
 
         //targeted the 5 day forecast data,
+    
         for (let i=0; i <data.daily.length; i++){
       console.log("this"+ data.daily[i])
         //created the cards by creating a div w card class
@@ -59,10 +60,9 @@ function getAPI(){
         
         var cardTitle= document.createElement('h4');
         cardTitle.classList.add("card-title");
-        cardTitle.textContent=today;
+        cardTitle.textContent=today; //set text content to range of 5 days
         cardbodies.appendChild(cardTitle);
-
-
+        
         let fiveDayForecastHumidity= data.daily[i].humidity;
         var humidityElement=document.createElement('p');
         humidityElement.textContent=`Humidity:${fiveDayForecastHumidity}%`;
@@ -87,9 +87,28 @@ function getAPI(){
 searchButton.addEventListener("click", function(){
     console.log("clicked")
     getAPI();
+    displayCity();
     // getCityConvertedToLongandLat();
 } 
 );
+
+//display users city choices on screen as list items
+//created a div w class of card, so the population of cities that user inputs looks good using bootstrap classes.
+function displayCity (){
+  listOfCitySearched.classList.add("card");
+  var listItem = document.createElement('li');
+  listItem.classList.add("list-group-item");
+  var ulItem = document.createElement('ul');
+  ulItem.classList.add("list-group");
+  ulItem.append(listItem);
+  listOfCitySearched.appendChild(ulItem)
+  var citySearched= document.getElementById("userCityChoice").value;
+  listItem.textContent=citySearched;
+  listOfCitySearched.append(ulItem);
+//setting local storage in this function 
+  localStorage.setItem("searchedCity",citySearched)
+};
+
 
 
 // var citySearched= document.getElementById("citySearched").value;
