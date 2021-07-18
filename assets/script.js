@@ -2,9 +2,7 @@ const ApiKey = "6845bd9653c312c4a4d4b0a988d5d986";
 const searchButton = document.querySelector("button");
 const containerElement = document.getElementById("currentSearch");
 const listOfCitySearched = document.getElementById("listCitySearched");
-containerElement.classList.add("card");
 const fiveDayElement = document.getElementById("fiveDayForecast");
-fiveDayElement.classList.add("container");
 
 function getAPI() {
   var citySearched = document.getElementById("userCityChoice").value;
@@ -27,7 +25,7 @@ function getAPI() {
         .then(function (data) {
           //clearing the previous search before a new search begins/new data is populated
           document.getElementById("fiveDayForecast").innerHTML="";
-          document.getElementById("fiveDayForecast").innerHTML="";
+          document.getElementById("currentSearch").innerHTML="";
           
     
           console.log(data)
@@ -61,19 +59,31 @@ function getAPI() {
           var humidityElement = document.createElement('h6');
           humidityElement.textContent = `Humidty: ${humidity}%`;
           //appending all 5 variable to the div element w class card. 
+          containerElement.classList.add("card");
+          containerElement.classList.add("col-sm-9");
+
           containerElement.append(cityElement, tempElement, windElement, UVElement, humidityElement);
 
           // Populating the 5 day forecast
 
           //Used the same API to populate the 5 day forecast, this API gives us 7 so I modified the for loop to start at tomorrows date (array position 1) and end at 5 days from today. 
           for (let i = 1; i < 6; i++) {
-            //created the cards by creating a div w card class
+    
+            
+            // created the cards div to set the size 
             var individualCardsForecast = document.createElement('div');
-            individualCardsForecast.classList.add("card");
+            individualCardsForecast.classList.add("col-md-2");
+            
+            //created the cards by creating a div w card class
+            var sizeofIndividualCards = document.createElement('div');
+            sizeofIndividualCards.classList.add("card");
+            individualCardsForecast.appendChild(sizeofIndividualCards);
+            
+            
             //created another div to nest w class of card-body. parent tag has class of container, then another div w class of card 
             var cardbodies = document.createElement('div');
             cardbodies.classList.add("card-body")
-            individualCardsForecast.appendChild(cardbodies)
+            sizeofIndividualCards.appendChild(cardbodies)
 
             let dateTime = data.daily[i].dt;
             var cardTitle = document.createElement('h5');
@@ -83,16 +93,19 @@ function getAPI() {
 
             let fiveDayForecastHumidity = data.daily[i].humidity;
             var humidityElement = document.createElement('p');
+            humidityElement.classList.add("card-text");
             humidityElement.textContent = `Humidity:${fiveDayForecastHumidity}%`;
             cardbodies.appendChild(humidityElement);
 
             let fiveDayForecastWind = data.daily[i].wind_speed;
             var windElement = document.createElement('p');
+            windElement.classList.add("card-text");
             windElement.textContent = `Wind Speed: ${fiveDayForecastWind} MPH`;
             cardbodies.appendChild(windElement);
 
             let fiveDayForecastTemp = data.daily[i].temp[0, "day"];
             var tempElement = document.createElement('p');
+            tempElement.classList.add("card-text");
             tempElement.textContent = `Temperature: ${fiveDayForecastTemp}°F`;
             cardbodies.appendChild(tempElement);
 
@@ -113,7 +126,7 @@ searchButton.addEventListener("click", function () {
 //created a div w class of card, so the population of cities that user inputs looks good using bootstrap classes.
 function displayCity() {
   listOfCitySearched.classList.add("card");
-  var listItem = document.createElement('li');
+  var listItem = document.createElement('button');
   listItem.classList.add("list-group-item");
   var ulItem = document.createElement('ul');
   ulItem.classList.add("list-group");
@@ -128,6 +141,5 @@ function displayCity() {
 
 // To DO LIST:
   //figure out how to add weather icons to the page
-  // dynamically create the latitude and longitude, call on the second API(below), it allows the city searched to be entered in the query.
   //fix the current temp. CSS on page, its not absolute.
-  //getitem from local storage
+  //getitem from local storage and display on
