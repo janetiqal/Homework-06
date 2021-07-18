@@ -1,6 +1,5 @@
 .jumbotron{
     text-align: center;
-    margin:15px;
 }
 /*the widthe of the search bar and the width of the searched cities set to 18em*/
 #inputField{
@@ -9,14 +8,14 @@
 .card>.list-group{
     width:18em;
 }
-.container{
+/* .container{
   display: flex;
   width:50em;
   position: absolute;
   top: 20em;
   left: 18em; 
 
-}
+} */
 #listCitySearched{
     width: 18em;
 }
