@@ -5,11 +5,11 @@ const listOfCitySearched= document.getElementById("listCitySearched");
 containerElement.classList.add("card");
 const fiveDayElement= document.getElementById("fiveDayForecast");
 fiveDayElement.classList.add("container");
-
+var citySearched= document.getElementById("userCityChoice").value;
 function getAPI(){
     fetch("https://api.openweathermap.org/data/2.5/onecall?lat=41.8781&lon=-87.6298&appid=" + ApiKey + "&units=imperial")
     .then(function(response){
-        return response.json();
+      return response.json();
     })
     .then(function(data){
         console.log(data)
@@ -28,7 +28,7 @@ function getAPI(){
         var cityElement= document.createElement('h2');
         cityElement.classList.add("card-header"); //added card header to differentiate data from city
         //adding todays date to the city searched input
-        cityElement.textContent=citySearched + moment.unix(currentDate).format("MM/DD/YYYY");
+        cityElement.textContent= citySearched + moment.unix(currentDate).format("MM/DD/YYYY");
         //Temp being added to page
         var tempElement=document.createElement('h6');
         tempElement.textContent=`Temperature: ${currentTemp} °F`;
@@ -48,7 +48,6 @@ function getAPI(){
 
         //Used the same API to populate the 5 day forecast, this API gives us 7 so I modified the for loop to start at tomorrows date (array position 1) and end at 5 days from today. 
         for (let i=1; i <6; i++){
-      console.log("this"+ data.daily[i])
         //created the cards by creating a div w card class
         var individualCardsForecast=document.createElement('div');
         individualCardsForecast.classList.add("card");
@@ -116,15 +115,17 @@ function displayCity (){
   //getitem from local storage
 
 
-// var citySearched= document.getElementById("citySearched").value;
-// function getCityConvertedToLongandLat(){
-//   fetch("https://api.openweathermap.org/data/2.5/weather?q=" + citySearched + "&appid=" + ApiKey)
-//   .then(function(response){
-//     // console.log(response);
-//     return response.json();
-// })
-//  .then(function(data){
-//   console.log(data)
+var citySearched= document.getElementById("userCityChoice").value;
+console.log(citySearched)
+function getCityConvertedToLongandLat(){
+  fetch("https://api.openweathermap.org/geo/1.0/direct?q=" + citySearched 
+  +"&appid=" + ApiKey)
+  .then(function(response){
+    return response.json();
+})
+ .then(function(data){
+  console.log(data)
 
-// })
-// };
+})
+};
+getCityConvertedToLongandLat();
