@@ -134,19 +134,38 @@ searchButton.addEventListener("click", function () {
 //created a div w class of card, so the population of cities that user inputs looks good using bootstrap classes.
 function displayCity() {
   listOfCitySearched.classList.add("card");
-  var listItem = document.createElement('a');
-  listItem.classList.add("list-group-item");
-  listItem.classList.add("btn");
+  var citySearched = document.getElementById("userCityChoice").value; 
+//created an array to hold the values of city input, new 
+  var cities= [];
+  cities.push(citySearched);
+//setting local storage in this function 
+  localStorage.setItem("searchedCity", JSON.stringify(cities));
+  console.log(cities)
+  cityArray=JSON.parse(localStorage.getItem("searchedCity"));
+  
+  cityArray.forEach(function(cityName){
+    var listItem = document.createElement('a');
+    listItem.classList.add("list-group-item");
+    listItem.classList.add("btn");
 
-  var ulItem = document.createElement('ul');
-  ulItem.classList.add("list-group");
-  ulItem.append(listItem);
-  listOfCitySearched.appendChild(ulItem)
-  var citySearched = document.getElementById("userCityChoice").value;
-  listItem.textContent = citySearched;
-  listOfCitySearched.append(ulItem);
-  //setting local storage in this function 
-  localStorage.setItem("searchedCity", citySearched);
+    var ulItem = document.createElement('ul');
+    ulItem.classList.add("list-group");
+    ulItem.append(listItem);
+    // var citySearched = document.getElementById("userCityChoice").value;
+
+    listItem.textContent = cityName;
+    listItem.value = cityName;
+
+    listOfCitySearched.append(ulItem);
+
+    listItem.addEventListener("click", function(){
+      console.log("clickedthis")
+      getAPI();
+
+    })
+  });
+ 
+
 };
 
 // To DO LIST:
