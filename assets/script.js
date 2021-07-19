@@ -10,20 +10,23 @@ searchButton.addEventListener("click", function (event) {
   console.log("clicked")
   getAPI();
   displayCity();
-  // var citySearched = document.getElementById("userCityChoice").value;
-  // console.log(typeof citySearched)
 }
 );
 
-function getAPI() {
-  var citySearched = document.getElementById("userCityChoice").value;
+function getAPI(citySearched) {
+  // the function runs w our w out parameters bc of this if/else
+  //if we are not using a parameter, citySearched will show as undefined, and when its undefined, we use the search bar value.
+  if (!citySearched){
+    citySearched=document.getElementById("userCityChoice").value;
+  }else{
+    citySearched;
+  }
   fetch("https://api.openweathermap.org/geo/1.0/direct?q=" + citySearched
     + "&appid=" + ApiKey)
     .then(function (response) {
       return response.json();
     })
     .then(function (dataCoordinates) {
-      // console.log(dataCoordinates)
       longitude = dataCoordinates[0].lon;
       latitude = dataCoordinates[0].lat;
       console.log(longitude)
@@ -78,11 +81,8 @@ function getAPI() {
           containerElement.append(cityElement, tempElement, windElement, UVElement, humidityElement);
 
           // Populating the 5 day forecast
-
           //Used the same API to populate the 5 day forecast, this API gives us 7 so I modified the for loop to start at tomorrows date (array position 1) and end at 5 days from today. 
           for (let i = 1; i < 6; i++) {
-    
-            
             // created the cards div to set the size 
             var individualCardsForecast = document.createElement('div');
             individualCardsForecast.classList.add("col-md-2");
@@ -91,7 +91,6 @@ function getAPI() {
             var sizeofIndividualCards = document.createElement('div');
             sizeofIndividualCards.classList.add("card");
             individualCardsForecast.appendChild(sizeofIndividualCards);
-            
             
             //created another div to nest w class of card-body. parent tag has class of container, then another div w class of card 
             var cardbodies = document.createElement('div');
@@ -135,23 +134,12 @@ function getAPI() {
     })
 };
 
-// searchButton.addEventListener("click", function () {
-//   console.log("clicked")
-//   getAPI();
-//   displayCity();
-//   var citySearched = document.getElementById("userCityChoice").value;
-//   console.log(citySearched)
-// }
-// );
-
-
 //display users city choices on screen as list items
 //created a div w class of card, so the population of cities that user inputs looks good using bootstrap classes.
 function displayCity() {
   listOfCitySearched.classList.add("card");
   var citySearched = document.getElementById("userCityChoice").value; 
-//created an array to hold the values of city input, 
-//add the OR statement because if there isnt anything in the array it returns undefined & wont work so I added an empty array for the cities to be  pushed into
+//created an array to hold the values of city input, add the OR statement because if there isnt anything in the array it returns undefined & wont work so I added an empty array for the cities to be  pushed into
   cityArray=JSON.parse(localStorage.getItem("searchedCity"))|| [] ;
   cityArray.push(citySearched);
 //setting the array tolocal storage to save it
@@ -174,17 +162,18 @@ function displayCity() {
 
     listItem.addEventListener("click", function(event){
       console.log("clicked search history")
-      let citypicked= event.target.value;
-      console.log( citypicked);
-      //clicking on the button does not change data.
+      var citypicked= event.target.value;
+      // var cityEl = document.createElement('h2');
+      // cityEl.textContent= citypicked;
+      // containerElement.append(citypicked)
+      console.log(citypicked);
       let citySearched = citypicked;
       getAPI(citySearched);
     })
   });
  
-
 };
 
 // To DO LIST:
-  //figure out how to add weather icons to the page
-  //getitem from local storage and display on screen so users can see search history and see data populate
+  //add the cities name to the h2 from the search history.
+//loop over your localstorage array and see if the city is in there, if not,  need to push the city into the array, if it is there is no need to push into the array
