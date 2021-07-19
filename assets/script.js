@@ -1,5 +1,5 @@
 const ApiKey = "6845bd9653c312c4a4d4b0a988d5d986";
-const searchButton = document.querySelector("button");
+const searchButton = document.getElementById("submitbtn");
 const containerElement = document.getElementById("currentSearch");
 const listOfCitySearched = document.getElementById("listCitySearched");
 const fiveDayElement = document.getElementById("fiveDayForecast");
