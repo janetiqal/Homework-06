@@ -4,6 +4,7 @@ const containerElement = document.getElementById("currentSearch");
 const listOfCitySearched = document.getElementById("listCitySearched");
 const fiveDayElement = document.getElementById("fiveDayForecast");
 
+
 function getAPI() {
   var citySearched = document.getElementById("userCityChoice").value;
   fetch("https://api.openweathermap.org/geo/1.0/direct?q=" + citySearched
@@ -26,8 +27,7 @@ function getAPI() {
           //clearing the previous search before a new search begins/new data is populated
           document.getElementById("fiveDayForecast").innerHTML="";
           document.getElementById("currentSearch").innerHTML="";
-          
-    
+        
           console.log(data)
 
           //Extracted the 6 variables I wanted to display for my current weather forecast
@@ -119,6 +119,14 @@ searchButton.addEventListener("click", function () {
   console.log("clicked")
   getAPI();
   displayCity();
+  // if(citySearched!==""){
+  //   alert("Enter a valid City")};
+  
+  
+
+    // getAPI();
+    // displayCity();
+  
 }
 );
 
@@ -126,8 +134,10 @@ searchButton.addEventListener("click", function () {
 //created a div w class of card, so the population of cities that user inputs looks good using bootstrap classes.
 function displayCity() {
   listOfCitySearched.classList.add("card");
-  var listItem = document.createElement('button');
+  var listItem = document.createElement('a');
   listItem.classList.add("list-group-item");
+  listItem.classList.add("btn");
+
   var ulItem = document.createElement('ul');
   ulItem.classList.add("list-group");
   ulItem.append(listItem);
@@ -136,10 +146,9 @@ function displayCity() {
   listItem.textContent = citySearched;
   listOfCitySearched.append(ulItem);
   //setting local storage in this function 
-  localStorage.setItem("searchedCity", citySearched)
+  localStorage.setItem("searchedCity", citySearched);
 };
 
 // To DO LIST:
   //figure out how to add weather icons to the page
-  //fix the current temp. CSS on page, its not absolute.
-  //getitem from local storage and display on
+  //getitem from local storage and display on screen so users can see search history and see data populate
