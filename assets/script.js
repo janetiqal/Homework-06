@@ -5,6 +5,16 @@ const listOfCitySearched = document.getElementById("listCitySearched");
 const fiveDayElement = document.getElementById("fiveDayForecast");
 
 
+searchButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  console.log("clicked")
+  getAPI();
+  displayCity();
+  // var citySearched = document.getElementById("userCityChoice").value;
+  // console.log(typeof citySearched)
+}
+);
+
 function getAPI() {
   var citySearched = document.getElementById("userCityChoice").value;
   fetch("https://api.openweathermap.org/geo/1.0/direct?q=" + citySearched
@@ -125,15 +135,14 @@ function getAPI() {
     })
 };
 
-searchButton.addEventListener("click", function () {
-  console.log("clicked")
-  getAPI();
-  displayCity();
-  
-
-  
-}
-);
+// searchButton.addEventListener("click", function () {
+//   console.log("clicked")
+//   getAPI();
+//   displayCity();
+//   var citySearched = document.getElementById("userCityChoice").value;
+//   console.log(citySearched)
+// }
+// );
 
 
 //display users city choices on screen as list items
@@ -166,7 +175,7 @@ function displayCity() {
     listItem.addEventListener("click", function(event){
       console.log("clicked search history")
       let citypicked= event.target.value;
-      console.log(citypicked);
+      console.log( citypicked);
       //clicking on the button does not change data.
       let citySearched = citypicked;
       getAPI(citySearched);
