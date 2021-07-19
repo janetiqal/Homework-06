@@ -29,7 +29,6 @@ function getAPI() {
           document.getElementById("currentSearch").innerHTML="";
         
           console.log(data)
-
           //Extracted the 6 variables I wanted to display for my current weather forecast
           var currentTemp = data.current.temp;
           var wind = data.current.wind_speed;
@@ -38,7 +37,10 @@ function getAPI() {
           var currentDate = data.current.dt;
 
           //weather icon targetted but not getting the image.
-          var weatherIcon = data.current.weather[0].icon;
+          var weatherIcon = data.current.weather[0].icon ;
+          var weatherpicture= document.createElement("img");
+          weatherpicture.src=("http://openweathermap.org/img/w/" +weatherIcon + ".png")
+        
           console.log(currentTemp, wind, humidity, uvIndex, weatherIcon);
           //taking the value of user input in search bar and creating an H2 to append it to
           var citySearched = document.getElementById("userCityChoice").value;
@@ -46,6 +48,7 @@ function getAPI() {
           cityElement.classList.add("card-header"); //added card header to differentiate data from city
           //adding todays date to the city searched input
           cityElement.textContent = citySearched + moment.unix(currentDate).format("MM/DD/YYYY");
+          cityElement.append(weatherpicture)
           //Temp being added to page
           var tempElement = document.createElement('h6');
           tempElement.textContent = `Temperature: ${currentTemp} °F`;
@@ -91,6 +94,11 @@ function getAPI() {
             cardTitle.textContent = moment.unix(dateTime).format("MM/DD/YYYY");
             cardbodies.appendChild(cardTitle);
 
+            let weatherIcon = data.daily[i].weather[0].icon ;
+            var weatherpicture= document.createElement("img");
+            weatherpicture.src=("http://openweathermap.org/img/w/" + weatherIcon + ".png")
+            cardTitle.append(weatherpicture)
+
             let fiveDayForecastHumidity = data.daily[i].humidity;
             var humidityElement = document.createElement('p');
             humidityElement.classList.add("card-text");
@@ -110,6 +118,8 @@ function getAPI() {
             cardbodies.appendChild(tempElement);
 
             fiveDayElement.appendChild(individualCardsForecast);
+             document.querySelector("input").value="";
+
           };
         })
     })
@@ -119,30 +129,25 @@ searchButton.addEventListener("click", function () {
   console.log("clicked")
   getAPI();
   displayCity();
-  // if(citySearched!==""){
-  //   alert("Enter a valid City")};
-  
   
 
-    // getAPI();
-    // displayCity();
   
 }
 );
+
 
 //display users city choices on screen as list items
 //created a div w class of card, so the population of cities that user inputs looks good using bootstrap classes.
 function displayCity() {
   listOfCitySearched.classList.add("card");
   var citySearched = document.getElementById("userCityChoice").value; 
-//created an array to hold the values of city input, new 
-  var cities= [];
-  cities.push(citySearched);
-//setting local storage in this function 
-  localStorage.setItem("searchedCity", JSON.stringify(cities));
-  console.log(cities)
-  cityArray=JSON.parse(localStorage.getItem("searchedCity"));
-  
+//created an array to hold the values of city input, 
+//add the OR statement because if there isnt anything in the array it returns undefined & wont work so I added an empty array for the cities to be  pushed into
+  cityArray=JSON.parse(localStorage.getItem("searchedCity"))|| [] ;
+  cityArray.push(citySearched);
+//setting the array tolocal storage to save it
+  localStorage.setItem("searchedCity", JSON.stringify(cityArray));
+  //for each item in the city Array (from local storage), I am creating elements and appending it to an existing parent div from the html page, which was declared at the top of the file page
   cityArray.forEach(function(cityName){
     var listItem = document.createElement('a');
     listItem.classList.add("list-group-item");
@@ -158,10 +163,13 @@ function displayCity() {
 
     listOfCitySearched.append(ulItem);
 
-    listItem.addEventListener("click", function(){
-      console.log("clickedthis")
-      getAPI();
-
+    listItem.addEventListener("click", function(event){
+      console.log("clicked search history")
+      let citypicked= event.target.value;
+      console.log(citypicked);
+      //clicking on the button does not change data.
+      let citySearched = citypicked;
+      getAPI(citySearched);
     })
   });
  
