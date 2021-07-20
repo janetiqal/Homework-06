@@ -6,7 +6,7 @@ const fiveDayElement = document.getElementById("fiveDayForecast");
 
 searchButton.addEventListener("click", function (event) {
 citySearched=document.getElementById("userCityChoice").value;
-
+  document.querySelectorAll("a").innerHTML="";
   if (event && citySearched===""){
     alert("Enter a Valid City")
   } else{
@@ -76,13 +76,13 @@ function getAPI(citySearched) {
           var UVElement = document.createElement('h6');
           UVElement.textContent = `UV Index: ${uvIndex}`;
           if (uvIndex<3){
-            UVElement.style.color="success";
+            UVElement.style.color="green";
           } else if(uvIndex>=3 && uvIndex <6){
-            UVElement.style.color="warning"
+            UVElement.style.color="yellow"
           } else if(uvIndex>=6 && uvIndex <8){
             UVElement.style.color="orange";
           } else if(uvIndex>=8 && uvIndex <11){
-            UVElement.style.color="danger";
+            UVElement.style.color="red";
           }else {
             UVElement.style.color="purple";
           };
@@ -158,11 +158,13 @@ function displayCity() {
   var citySearched = document.getElementById("userCityChoice").value; 
 //created an array to hold the values of city input, add the OR statement because if there isnt anything in the array it returns undefined & wont work so I added an empty array for the cities to be  pushed into
   cityArray=JSON.parse(localStorage.getItem("searchedCity"))|| [] ;
-  if (citySearched===""){
-    cityArray.pop(citySearched);
-  }else {
   cityArray.push(citySearched);
-};
+  //not working 
+  // if (citySearched===citySearched){
+  //   document.querySelectorAll("a").textContent="";
+  // }else {
+  //   cityArray.push(citySearched);
+  // }
 //setting the array tolocal storage to save it
   localStorage.setItem("searchedCity", JSON.stringify(cityArray));
   //for each item in the city Array (from local storage), I am creating elements and appending it to an existing parent div from the html page, which was declared at the top of the file page
@@ -180,7 +182,7 @@ function displayCity() {
     listItem.value = cityName;
 
     listOfCitySearched.append(ulItem);
-
+    
     listItem.addEventListener("click", function(event){
       console.log("clicked search history")
       var citypicked= event.target.value;
