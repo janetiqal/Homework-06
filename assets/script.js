@@ -4,13 +4,17 @@ const containerElement = document.getElementById("currentSearch");
 const listOfCitySearched = document.getElementById("listCitySearched");
 const fiveDayElement = document.getElementById("fiveDayForecast");
 
-
 searchButton.addEventListener("click", function (event) {
+citySearched=document.getElementById("userCityChoice").value;
+
+  if (event && citySearched===""){
+    alert("Enter a Valid City")
+  } else{
   event.preventDefault();
   console.log("clicked")
   getAPI();
   displayCity();
-}
+}}
 );
 
 function getAPI(citySearched) {
@@ -71,6 +75,19 @@ function getAPI(citySearched) {
           //UV being added to page
           var UVElement = document.createElement('h6');
           UVElement.textContent = `UV Index: ${uvIndex}`;
+          if (uvIndex<3){
+            UVElement.style.color="success";
+          } else if(uvIndex>=3 && uvIndex <6){
+            UVElement.style.color="warning"
+          } else if(uvIndex>=6 && uvIndex <8){
+            UVElement.style.color="orange";
+          } else if(uvIndex>=8 && uvIndex <11){
+            UVElement.style.color="danger";
+          }else {
+            UVElement.style.color="purple";
+          };
+         
+
           //Humidity being added to page
           var humidityElement = document.createElement('h6');
           humidityElement.textContent = `Humidty: ${humidity}%`;
@@ -141,7 +158,11 @@ function displayCity() {
   var citySearched = document.getElementById("userCityChoice").value; 
 //created an array to hold the values of city input, add the OR statement because if there isnt anything in the array it returns undefined & wont work so I added an empty array for the cities to be  pushed into
   cityArray=JSON.parse(localStorage.getItem("searchedCity"))|| [] ;
+  if (citySearched===""){
+    cityArray.pop(citySearched);
+  }else {
   cityArray.push(citySearched);
+};
 //setting the array tolocal storage to save it
   localStorage.setItem("searchedCity", JSON.stringify(cityArray));
   //for each item in the city Array (from local storage), I am creating elements and appending it to an existing parent div from the html page, which was declared at the top of the file page
@@ -177,3 +198,4 @@ function displayCity() {
 // To DO LIST:
   //add the cities name to the h2 from the search history.
 //loop over your localstorage array and see if the city is in there, if not,  need to push the city into the array, if it is there is no need to push into the array
+// add response.status >= 400, error make sure city input is valid
