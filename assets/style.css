@@ -4,34 +4,3 @@
     color:#ffffff;
     background-image: url("https://upload.wikimedia.org/wikipedia/commons/8/86/Altocumulus_cloud_formation.jpg")
 }
-/*the widthe of the search bar and the width of the searched cities set to 18em*/
-/* #inputField{
-    width: 18em;
-} */
-/* .card>.list-group{
-    width:18em;
-} */
-/* .container{
-  display: flex;
-  width:50em;
-  position: absolute;
-  top: 20em;
-  left: 18em; 
-
-} */
-/* #listCitySearched{
-    width: 18em;
-} */
-/* #currentSearch{ */
-    /* width:50em;
-    display: flex;
-    position:absolute;
-    bottom: 12.5em;
-    left: 20em;  */
-    /* bottom: 70px;
-    left: 300px; */
-    /* text-align: center; */
-/* } */
-/* #currentSearch h2 {
-    text-align: center;
-}

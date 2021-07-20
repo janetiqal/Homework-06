@@ -6,7 +6,6 @@ const fiveDayElement = document.getElementById("fiveDayForecast");
 
 searchButton.addEventListener("click", function (event) {
 citySearched=document.getElementById("userCityChoice").value;
-  document.querySelectorAll("a").innerHTML="";
   if (event && citySearched===""){
     alert("Enter a Valid City")
   } else{
@@ -53,7 +52,7 @@ function getAPI(citySearched) {
           var uvIndex = data.current.uvi;
           var currentDate = data.current.dt;
 
-          //weather icon targetted but not getting the image.
+          //weather icon targetted and given src
           var weatherIcon = data.current.weather[0].icon ;
           var weatherpicture= document.createElement("img");
           weatherpicture.src=("http://openweathermap.org/img/w/" +weatherIcon + ".png")
@@ -87,7 +86,6 @@ function getAPI(citySearched) {
             UVElement.style.color="purple";
           };
          
-
           //Humidity being added to page
           var humidityElement = document.createElement('h6');
           humidityElement.textContent = `Humidty: ${humidity}%`;
@@ -157,16 +155,12 @@ function displayCity() {
   listOfCitySearched.classList.add("card");
   var citySearched = document.getElementById("userCityChoice").value; 
 //created an array to hold the values of city input, add the OR statement because if there isnt anything in the array it returns undefined & wont work so I added an empty array for the cities to be  pushed into
-  cityArray=JSON.parse(localStorage.getItem("searchedCity"))|| [] ;
+   cityArray=JSON.parse(localStorage.getItem("searchedCity"))|| [] ;
   cityArray.push(citySearched);
-  //not working 
-  // if (citySearched===citySearched){
-  //   document.querySelectorAll("a").textContent="";
-  // }else {
-  //   cityArray.push(citySearched);
-  // }
 //setting the array tolocal storage to save it
   localStorage.setItem("searchedCity", JSON.stringify(cityArray));
+  //fixed the accumulation issue of everyitem in array returning after each click
+  listOfCitySearched.innerHTML = '';
   //for each item in the city Array (from local storage), I am creating elements and appending it to an existing parent div from the html page, which was declared at the top of the file page
   cityArray.forEach(function(cityName){
     var listItem = document.createElement('a');
@@ -196,8 +190,3 @@ function displayCity() {
   });
  
 };
-
-// To DO LIST:
-  //add the cities name to the h2 from the search history.
-//loop over your localstorage array and see if the city is in there, if not,  need to push the city into the array, if it is there is no need to push into the array
-// add response.status >= 400, error make sure city input is valid
