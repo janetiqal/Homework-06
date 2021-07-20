@@ -7,5 +7,6 @@ I wanted to challenge myself by having I dynamically created the html content th
 # Link to Working App
 https://janetiqal.github.io/Homework-06/
 # Screenshot of Working App
+<img width="1429" alt="Screen Shot 2021-07-19 at 10 49 40 PM" src="https://user-images.githubusercontent.com/84414488/126261596-629fc3cd-f30e-4d18-8870-f39bbd512ef9.png">
 # Created By
 Janet Iqal
