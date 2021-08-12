@@ -10,7 +10,7 @@ citySearched=document.getElementById("userCityChoice").value;
     alert("Enter a Valid City")
   } else{
   event.preventDefault();
-  console.log("clicked")
+  // console.log("clicked")
   getAPI();
   displayCity();
 }}
@@ -32,8 +32,8 @@ function getAPI(citySearched) {
     .then(function (dataCoordinates) {
       longitude = dataCoordinates[0].lon;
       latitude = dataCoordinates[0].lat;
-      console.log(longitude)
-      console.log(latitude)
+      // console.log(longitude)
+      // console.log(latitude)
 
       fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&appid=" + ApiKey + "&units=imperial")
         .then(function (response) {
@@ -44,7 +44,7 @@ function getAPI(citySearched) {
           document.getElementById("fiveDayForecast").innerHTML="";
           document.getElementById("currentSearch").innerHTML="";
         
-          console.log(data)
+          // console.log(data)
           //Extracted the 6 variables I wanted to display for my current weather forecast
           var currentTemp = data.current.temp;
           var wind = data.current.wind_speed;
@@ -156,7 +156,14 @@ function displayCity() {
   var citySearched = document.getElementById("userCityChoice").value; 
 //created an array to hold the values of city input, add the OR statement because if there isnt anything in the array it returns undefined & wont work so I added an empty array for the cities to be  pushed into
    cityArray=JSON.parse(localStorage.getItem("searchedCity"))|| [] ;
-  cityArray.push(citySearched);
+  
+  // if a searched city name is already in the search history, don't add the city name to the search history again
+  if(!cityArray.includes(citySearched)){
+    cityArray.push(citySearched);
+  } else{
+    cityArray
+  }
+
 //setting the array tolocal storage to save it
   localStorage.setItem("searchedCity", JSON.stringify(cityArray));
   //fixed the accumulation issue of everyitem in array returning after each click
